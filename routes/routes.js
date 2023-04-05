@@ -102,6 +102,26 @@ router.post("/update/:id", upload, async (req, res) => {
     }
   });
   
+  router.get('/delete/:id', async (req, res) => {
+    try {
+        let id = req.params.id;
+        let result = await User.findByIdAndRemove(id);
+        if(result.image != ''){
+            try{
+                fs.unlinkSync('./uploads/'+result.image);
+            } catch(err){
+                console.log(err);
+            }
+        }
+        req.session.message = {
+            type: "info",
+            message: "User deleted successfully!",
+        };
+        res.redirect("/");
+    } catch (err) {
+        res.json({ message: err.message });
+    }
+});
 
 
 module.exports = router;
