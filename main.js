@@ -30,6 +30,8 @@ app.use(session({
     next();
   });
 
+app.use(express.static("uploads"));  
+
   //tempelate engine
 app.set("view engine", "ejs");
 
